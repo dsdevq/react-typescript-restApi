@@ -1,0 +1,44 @@
+.main__asignment {
+  color: white;
+}
+
+.asignment-section {
+
+  &__container {
+
+    // background settings
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../../../../Assets/background.jpeg');
+    min-height: 650px;
+    background-size: cover;
+    background-position: 100% 85%;
+    background-repeat: no-repeat;
+
+    // position
+    display: grid;
+    place-content: center;
+    text-align: center;
+  }
+  // Container with content
+  &__content {
+    display: grid;
+    justify-items: center;
+    max-width: 380px;
+  }
+  &__title {
+    margin-bottom: 21px;
+  }
+  &__text {
+    margin-bottom: 32px;
+  }
+  &__button {
+    min-width: 100px;
+  }
+}
+
+@media (max-width: 768px) {
+  .asignment-section {
+    &__container {
+      min-height: 500px;
+    }
+  }
+}

@@ -1,0 +1,19 @@
+.get-request {
+  &__container {
+      display: flex;
+    flex-direction: column;
+    gap: 50px;
+  }
+  &__title {
+
+  }
+  &__content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(282px, 100%), 1fr));
+    gap: 29px;
+  }
+  &__button {
+    align-self: center;
+    min-width: 124px;
+  }
+}

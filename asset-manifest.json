@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/react-typescript-restApi/static/css/main.a0b43cfd.css",
-    "main.js": "/react-typescript-restApi/static/js/main.dabee9ea.js",
+    "main.css": "/react-typescript-restApi/static/css/main.e3010270.css",
+    "main.js": "/react-typescript-restApi/static/js/main.5649f317.js",
     "static/media/background.jpeg": "/react-typescript-restApi/static/media/background.be7665f876bbd9138501.jpeg",
     "static/media/Logo.svg": "/react-typescript-restApi/static/media/Logo.8bb55362d01d55393ccc5476d96f0c14.svg",
     "index.html": "/react-typescript-restApi/index.html",
-    "main.a0b43cfd.css.map": "/react-typescript-restApi/static/css/main.a0b43cfd.css.map",
-    "main.dabee9ea.js.map": "/react-typescript-restApi/static/js/main.dabee9ea.js.map"
+    "main.e3010270.css.map": "/react-typescript-restApi/static/css/main.e3010270.css.map",
+    "main.5649f317.js.map": "/react-typescript-restApi/static/js/main.5649f317.js.map"
   },
   "entrypoints": [
-    "static/css/main.a0b43cfd.css",
-    "static/js/main.dabee9ea.js"
+    "static/css/main.e3010270.css",
+    "static/js/main.5649f317.js"
   ]
 }

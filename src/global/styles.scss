@@ -5,7 +5,7 @@
 
 
 // Global reset
-body, h1 {
+body, h1, p, input {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -14,21 +14,7 @@ body, h1 {
   text-decoration: none;
 }
 
-// Button global
 
-$buttonColor: #F4E041;
-
-.button {
-  display: grid;
-  place-content: center;
-  background-color: $buttonColor;
-  color: rgba(0, 0, 0, 0.87);
-  padding: 4px 0;
-  border-radius: 80px;
-  text-align: center;
-  min-height: 34px;
-  cursor: pointer;
-}
 
 // Title global
 .title {

@@ -3,3 +3,25 @@
   display: grid;
   row-gap: 140px;
 }
+
+.container-request {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+
+// Button global
+
+$buttonColor: #F4E041;
+
+.button {
+  display: grid;
+  place-content: center;
+  background-color: $buttonColor;
+  color: rgba(0, 0, 0, 0.87);
+  padding: 4px 0;
+  border-radius: 80px;
+  text-align: center;
+  min-height: 34px;
+  cursor: pointer;
+}

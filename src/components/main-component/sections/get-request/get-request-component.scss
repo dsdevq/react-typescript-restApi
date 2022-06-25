@@ -1,8 +1,7 @@
 .get-request {
+
   &__container {
-      display: flex;
-    flex-direction: column;
-    gap: 50px;
+
   }
   &__title {
 
@@ -15,5 +14,21 @@
   &__button {
     align-self: center;
     min-width: 124px;
+  }
+}
+
+@media (max-width: 768px) {
+  .get-request {
+    &__content {
+      gap: 16px;
+    }
+  }
+}
+
+@media (max-width: 360px) {
+  .get-request {
+    &__content {
+      gap: 20px;
+    }
   }
 }

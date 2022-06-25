@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import './get-request-component.scss'
 import GetRequestItemComponent from "./get-request-item/get-request-item-component";
 
-interface UserProps {
+export interface UserProps {
   email: string,
   id: number,
   name: string,
@@ -10,11 +10,8 @@ interface UserProps {
   photo: string,
   position: string,
   position_id: number,
+  registration_timestamp: number,
 }
-
-// const USERS_URL = `https://frontend-test-assignment-api.abz.agency/api/v1/users?page=1&count=6`
-// const USERS_URL2 = `https://frontend-test-assignment-api.abz.agency/api/v1/users?page=2&count=6`
-
 
 const GetRequestComponent = () => {
 
@@ -37,31 +34,36 @@ const GetRequestComponent = () => {
     const result = await response.json()
     const totalPages = result.total_pages
     setPagesCount(totalPages)
-
     console.log(result.users)
-    users.length > 0 ? setUsers(oldArray => [...oldArray, result.users[0], result.users[1], result.users[2], result.users[3], result.users[4], result.users[5]]) : setUsers(result.users)
+    users.length > 0 ? setUsers(oldArray => [...oldArray, ...result.users]) : setUsers(result.users)
   }
 
   const showMore = () => {
     setPage(page + 1)
-    // setPages(oldArray => [...oldArray, [2, 3, 4]])
-    // console.log(pages)
-
-
   }
 
 
   return (
     <section className="main__get-request">
-      <div className="get-request__container">
+      <div className="get-request__container container-request">
         <div className="get-request__title title">
         Working with GET request
         </div>
         <div className="get-request__content content-request">
-        {users.length > 0 && users.sort().map(user => (
+        {users.length > 0 && users.sort((a, b) => a.registration_timestamp > b.registration_timestamp ? 1 : -1).map(user => (
         <GetRequestItemComponent 
-            registration_timestamp={0} email={""} id={0} name={""} phone={0} photo={""} position={""} position_id={0}
-            {...(user as {})} key={user.id}/>
+
+          registration_timestamp={user.registration_timestamp} 
+          email={user.email} 
+          id={user.id} 
+          name={user.name} 
+          phone={user.phone} 
+          photo={user.photo} 
+          position={user.position} 
+          position_id={user.position_id}
+
+          key={user.id}
+          />
       ))}
         </div>
         <div className="get-request__button button" 
@@ -72,7 +74,6 @@ const GetRequestComponent = () => {
           } 
           : 
           {
-            display: 'grid'
           }
         }
         onClick={() => showMore()}

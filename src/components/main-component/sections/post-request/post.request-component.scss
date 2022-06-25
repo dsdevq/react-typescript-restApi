@@ -1,0 +1,150 @@
+.main__post-request {
+
+}
+
+$greyColor: #B4B4B4;
+
+.post-request {
+  &__container {
+    align-items: center;
+  }
+  &__title {
+
+  }
+  &__form {
+    display: flex;
+    max-width: 380px;
+    width: 100%;
+    flex-direction: column;
+  }
+
+}
+
+.form {
+  &__text-container {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 50px;
+  }
+  &__text-input {
+  }
+  &__radio-input {
+    display: none;
+  }
+  &__label {
+    padding-left: 16px;
+    padding-top: 4px;
+    font-size: 12px;
+    line-height: 14px;
+    color: $greyColor;
+  }
+
+  &__checkbox-container {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    margin-top: 25px;
+    margin-bottom: 47px;
+  }
+
+
+  &__upload-container {
+    display: flex;
+    margin-bottom: 50px;
+  }
+  &__checkbox-title {
+    margin-bottom: 11px;
+  }
+  &__checkbox-radio {
+  }
+  &__checkboxes {
+    display: grid;
+    gap: 7px;
+  }
+
+  &__button {
+    min-width: 100px;
+    background: $greyColor;
+    color: white;
+    align-self: center;
+  }
+}
+
+.input-text {
+  padding: 14px 0 14px 16px;
+  border: 1px solid #D0CFCF;
+  border-radius: 4px;
+  font-size: inherit;
+}
+
+.container-upload {
+  &__button {
+    border: 1px solid black;
+    background-color: white;
+    padding: 14px 15px;
+  }
+  &__input {
+
+  }
+}
+
+
+// $
+
+[type="radio"]:checked,
+[type="radio"]:not(:checked) {
+    position: absolute;
+}
+
+[type="radio"]:checked + label,
+[type="radio"]:not(:checked) + label
+{
+    position: relative;
+    padding-left: 28px;
+    cursor: pointer;
+    line-height: 20px;
+    display: inline-block;
+}
+
+// 
+[type="radio"]:checked + label:before,
+[type="radio"]:not(:checked) + label:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 18px;
+    height: 18px;
+    border: 1px solid #D0CFCF;
+    border-radius: 100%;
+    background: #fff;
+}
+
+// 
+[type="radio"]:checked + label:after,
+[type="radio"]:not(:checked) + label:after {
+    content: '';
+    width: 10px;
+    height: 10px;
+    background: #00BDD3;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    border-radius: 100%;
+    -webkit-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+}
+
+// Select
+[type="radio"]:not(:checked) + label:after {
+    opacity: 0;
+    -webkit-transform: scale(0);
+    transform: scale(0);
+}
+[type="radio"]:checked + label:after {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+}
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+// 

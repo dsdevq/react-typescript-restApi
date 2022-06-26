@@ -6,8 +6,13 @@
     justify-content: space-between;
     gap: 14px;
   }
-  &__logo {}
-  &__img {}
+  &__logo {
+    display: flex;
+  }
+  &__img {
+    width: 104px;
+    height: 26px;
+  }
   &__buttons {
     display: flex;
     gap: 10px;

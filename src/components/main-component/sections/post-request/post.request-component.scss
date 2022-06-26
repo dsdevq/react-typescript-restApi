@@ -48,13 +48,15 @@ $greyColor: #B4B4B4;
 
 
   &__upload-container {
-    display: flex;
     margin-bottom: 50px;
   }
   &__checkbox-title {
     margin-bottom: 11px;
   }
   &__checkbox-radio {
+    &:not(:last-child) {
+      margin-bottom: 7px;
+    }
   }
   &__checkboxes {
     display: grid;
@@ -147,4 +149,22 @@ $greyColor: #B4B4B4;
 }
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-// 
+// INPUT FILE
+
+.container-upload {
+  position: relative;
+  display: flex;
+  &__file-input {
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    outline: none;
+  }
+  &__button {
+
+  }
+  .file__placeholder {
+    flex: 1;
+  }
+}

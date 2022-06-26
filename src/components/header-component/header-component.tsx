@@ -7,18 +7,22 @@ const HeaderComponent = () => {
   return (
     <header className="header">
       <div className="header__container">
-        <div className="header__logo">
-          <a href="" className="header__img">
-            <img src={logo} alt="Logo" />
+        {/* <div> 
+        */}
+          <a href="#" 
+        className="header__logo"> 
+            <img 
+        className="header__img"
+            src={logo} alt="Logo" />
           </a>
-        </div>
+        {/* </div> */}
         <div className="header__buttons">
-          <div className="header__button button">
+          <a href="#get-request" className="header__button button">
             Users
-          </div>
-          <div className="header__button button">
+          </a>
+          <a href="#post-request" className="header__button button">
             Sign up
-          </div>
+          </a>
         </div>
       </div>
     </header>

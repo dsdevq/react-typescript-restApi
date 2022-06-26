@@ -30,12 +30,17 @@ const GetRequestComponent = () => {
   
 
   const getUsers = async (URL: any) => {
-    const response = await fetch(URL)
-    const result = await response.json()
-    const totalPages = result.total_pages
-    setPagesCount(totalPages)
-    console.log(result.users)
-    users.length > 0 ? setUsers(oldArray => [...oldArray, ...result.users]) : setUsers(result.users)
+    try {
+      const response = await fetch(URL)
+      const result = await response.json()
+      const totalPages = result.total_pages
+      setPagesCount(totalPages)
+      console.log(result.users[0])
+      users.length > 0 ? setUsers(oldArray => [...oldArray, ...result.users]) : setUsers(result.users)
+      
+    } catch (error) {
+      console.log('getUsers api error: ', error);
+    }
   }
 
   const showMore = () => {
@@ -44,13 +49,15 @@ const GetRequestComponent = () => {
 
 
   return (
-    <section className="main__get-request">
+
+    
+    <section id="get-request" className="main__get-request">
       <div className="get-request__container container-request">
         <div className="get-request__title title">
         Working with GET request
         </div>
         <div className="get-request__content content-request">
-        {users.length > 0 && users.sort((a, b) => a.registration_timestamp > b.registration_timestamp ? 1 : -1).map(user => (
+        {users.length > 0 && users.sort((a, b) => a.registration_timestamp < b.registration_timestamp ? 1 : -1).map(user => (
         <GetRequestItemComponent 
 
           registration_timestamp={user.registration_timestamp} 
@@ -66,7 +73,7 @@ const GetRequestComponent = () => {
           />
       ))}
         </div>
-        <div className="get-request__button button" 
+        <a  className="get-request__button button" 
         style={
           pagesCount === page ? 
           {
@@ -79,10 +86,13 @@ const GetRequestComponent = () => {
         onClick={() => showMore()}
         >
           Show more
-        </div>
+        </a>
       </div>
     </section>
   )
 }
 
-export default GetRequestComponent
+const memoizedGetRequestComponent = React.memo(GetRequestComponent)
+
+// export default GetRequestComponent
+export default memoizedGetRequestComponent

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useForm, Resolver } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import './post.request-component.scss'
 
 interface FormValues {
@@ -7,25 +7,20 @@ interface FormValues {
   name: string,
   phone: number,
   photo: string,
-  position_id: string,
+  position_id: number,
 }
 
 const TOKEN_URL = 'https://frontend-test-assignment-api.abz.agency/api/v1/token'
 
-const POST_URL = 'https://frontend-test-assignment-api.abz.agency/api/v1/users'
-
-
 function PostRequestComponent()  {
 
-
   const [positions, setPositions] = useState<any[]>([])
+  const {register, handleSubmit, } = useForm<FormValues>({})
 
-  const [token, setToken] = useState('')
 
   const getPositions = async (api: string) => {
     const response = await fetch(api)
     const result = await response.json()
-    console.log(result)
     setPositions(result.positions)
   }
 
@@ -35,42 +30,47 @@ function PostRequestComponent()  {
 
   
 
-  const {register, handleSubmit, formState: { errors } } = useForm<FormValues>({})
 
 
   const getTheToken = async (tokenUrl: string) => {
-    const response = await fetch(tokenUrl)
-    const result = await response.json()
-    console.log(result)
-    setToken(result.token)
+    try {
+      const response = await fetch(tokenUrl)
+      const result = await response.json()
+      return result.token
+    } catch (error) {
+      console.log('getTheToken api error: ', error);
+    }
   }
 
-  const postUser = async (url: string, data: any) => {
-    const response = await fetch(url,
-      {
-        method: 'POST',
-        body: data,
-        headers: {
-          'Token': token
-        }
-      })
-    const result = await response.json()
-    console.log(result)
+  const postUser = async (token: string, data: any) => {
+    try {
+      const formData = new FormData()
+      formData.append('position_id', data.position_id)
+      formData.append('name', data.name)
+      formData.append('email', data.email)
+      formData.append('phone', data.phone)
+      formData.append('photo', data.photo[0])
+      const requestOptions = {
+        method: 'post',
+        headers: { 
+          Token: token
+        },
+        body: formData
+      }
+      const response = await fetch('https://frontend-test-assignment-api.abz.agency/api/v1/users', requestOptions)
+      return await response.json()
+    } catch (error) {
+      console.log('postUser api error: ', error);
+    }
   }
 
   const onSubmit = handleSubmit(async (data) => {
-
-    console.log(data)
-    // await getTheToken(TOKEN_URL)
-    // await postUser(POST_URL, data)
-
-
-    // POST
-    // console.log((data.photo[0]))
+    const token = await getTheToken(TOKEN_URL)
+    await postUser(token, data)
   })
 
   return (
-    <section className="main__post-request">
+    <section id="post-request" className="main__post-request">
       <div className="post-request__container container-request">
         <div className="post-request__title title">
         Working with POST request
@@ -79,23 +79,25 @@ function PostRequestComponent()  {
         <form className="post-request__form form"
         onSubmit={onSubmit}
         >
+
         <div className="form__text-container">
 
           {/* Name */}
           <input 
           {...register('name', {
-            // required: true, 
+            required: true, 
             // minLength: 2, 
             // maxLength: 60
           })}
-          className="form__text-input input-text" type="text" 
+          className="form__text-input input-text" 
+          type="text" 
           placeholder="Your name" 
           />
 
           {/* Email */}
           <input 
           {...register('email', {
-            // required: true, 
+            required: true, 
             // minLength: 2,
             // maxLength: 100,
             // pattern: /^\S+@\S+$/i
@@ -108,12 +110,12 @@ function PostRequestComponent()  {
           {/* Phone */}
           <input 
           {...register('phone', {
-            // required: true, 
+            required: true, 
             // minLength: 6, 
             // maxLength: 12,
           })}
-          className="form__text-input input-text" type="tel" 
-
+          className="form__text-input input-text" 
+          type="tel" 
           placeholder="Phone" 
           />
         </div>
@@ -131,12 +133,12 @@ function PostRequestComponent()  {
                 className="form__radio-input"
                 type="radio" 
                 {...register('position_id', {
-                  // required: true
+                  required: true
                 })}
-                id={position.name}
-                value={position.name}
+                id={position.id}
+                value={position.id}
                 />
-                <label htmlFor={position.name}>
+                <label htmlFor={position.id}>
                   {position.name}
                 </label>
             </p>
@@ -149,15 +151,26 @@ function PostRequestComponent()  {
               ) 
             } 
         </div>
-        <div className="form__upload-container container-upload">
+        {/* Photo */}
+        <label htmlFor="input-file" className="form__upload-container container-upload">
+          <span className="container-upload__button">
+            Upload
+          </span>
+          <p className="file__placeholder input-text">
+            Upload your photo
+          </p>
+          
           <input 
           type="file"  
+          id="input-file"
+          accept="image/jpeg,image/jpg"
+          className="container-upload__file-input"
           {...register('photo', {
-            // required: true
+            required: true
           })}
           />
-          <span className="container-upload__input"></span>
-        </div>
+
+        </label>
         <button type="submit" className="form__button button">
           Sign up
         </button>

@@ -14,9 +14,11 @@
     word-wrap: break-word;
   }
   &__photo {
-
+    width: 70px;
+    height: 70px;
     img {
-    display: flex;
+    width: 70px;  
+    height: 70px;
     border-radius: 50%;
     }
   }

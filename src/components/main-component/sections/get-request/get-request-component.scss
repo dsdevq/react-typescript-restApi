@@ -1,11 +1,5 @@
 .get-request {
 
-  &__container {
-
-  }
-  &__title {
-
-  }
   &__content {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(282px, 100%), 1fr));

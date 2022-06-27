@@ -13,16 +13,53 @@
 
 // Button global
 
-$buttonColor: #F4E041;
+$Hover: #FFE302;
+$Normal: #F4E041;
+$Disabled: #B4B4B4;
 
 .button {
   display: grid;
+  border: none;
   place-content: center;
-  background-color: $buttonColor;
+  background-color: $Normal;
   color: rgba(0, 0, 0, 0.87);
   padding: 4px 0;
   border-radius: 80px;
   text-align: center;
   min-height: 34px;
   cursor: pointer;
+}
+
+.button:disabled {
+  background-color: $Disabled;
+  pointer-events: none;
+  color: rgba(255, 255, 255, 0.87);
+
+}
+.button:hover {
+  background-color: $Hover;
+}
+
+.label {
+  position: absolute;
+}
+
+.input-text {
+  padding: 14px 0 14px 16px;
+  border: 1px solid #D0CFCF;
+  border-radius: 4px 4px 4px 4px;
+  font-size: inherit;
+  background: #F8F8F8;
+  &::after {
+  }
+}
+
+
+$tipColor: #7E7E7E;
+.tip {
+  color: $tipColor;
+  padding-left: 16px;
+  padding-top: 4px;
+  font-size: 12px;
+  line-height: 14px;
 }

@@ -5,17 +5,40 @@ import './post.request-component.scss'
 interface FormValues {
   email: string,
   name: string,
-  phone: number,
+  phone: string,
   photo: string,
   position_id: number,
 }
 
 const TOKEN_URL = 'https://frontend-test-assignment-api.abz.agency/api/v1/token'
 
-function PostRequestComponent()  {
+function PostRequestComponent() {
 
+  // GET POSITIONS
   const [positions, setPositions] = useState<any[]>([])
-  const {register, handleSubmit, } = useForm<FormValues>({})
+
+
+  // UPLOADING FILE
+  const [fileName, setFileName] = useState<string>('Upload your photo')
+
+  const {
+    register,
+    handleSubmit,
+    formState: {
+      isValid,
+      errors,
+      dirtyFields
+    }
+  } = useForm<FormValues>({
+    mode: 'onChange',
+    defaultValues: {
+      "name": "",
+      "email": "",
+      "position_id": undefined,
+      "phone": '',
+      "photo": "",
+    }
+  })
 
 
   const getPositions = async (api: string) => {
@@ -24,13 +47,10 @@ function PostRequestComponent()  {
     setPositions(result.positions)
   }
 
+  // Renders only once when the page is loaded
   useEffect(() => {
     getPositions('https://frontend-test-assignment-api.abz.agency/api/v1/positions')
   }, [])
-
-  
-
-
 
   const getTheToken = async (tokenUrl: string) => {
     try {
@@ -52,7 +72,7 @@ function PostRequestComponent()  {
       formData.append('photo', data.photo[0])
       const requestOptions = {
         method: 'post',
-        headers: { 
+        headers: {
           Token: token
         },
         body: formData
@@ -64,6 +84,7 @@ function PostRequestComponent()  {
     }
   }
 
+  // Submits form data
   const onSubmit = handleSubmit(async (data) => {
     const token = await getTheToken(TOKEN_URL)
     await postUser(token, data)
@@ -73,107 +94,185 @@ function PostRequestComponent()  {
     <section id="post-request" className="main__post-request">
       <div className="post-request__container container-request">
         <div className="post-request__title title">
-        Working with POST request
+          Working with POST request
         </div>
+        {/* FORM */}
+        <form className="post-request__form form" onSubmit={onSubmit}>
+          <div className="form__text-container">
+            {/* Name */}
+            <p className="form__input-text-container text-input-container">
+              {/* LABEL */}
+              {dirtyFields?.name &&
+                <label
+                  style={errors?.name &&
+                    { color: '#CB3D40' }
+                  }
+                  className="text-input-container__label label" htmlFor="phone">
+                  Name
+                </label>
 
-        <form className="post-request__form form"
-        onSubmit={onSubmit}
-        >
-
-        <div className="form__text-container">
-
-          {/* Name */}
-          <input 
-          {...register('name', {
-            required: true, 
-            // minLength: 2, 
-            // maxLength: 60
-          })}
-          className="form__text-input input-text" 
-          type="text" 
-          placeholder="Your name" 
-          />
-
-          {/* Email */}
-          <input 
-          {...register('email', {
-            required: true, 
-            // minLength: 2,
-            // maxLength: 100,
-            // pattern: /^\S+@\S+$/i
-          })}
-          className="form__text-input input-text" 
-          type="text" 
-          placeholder="Email" 
-          />
-
-          {/* Phone */}
-          <input 
-          {...register('phone', {
-            required: true, 
-            // minLength: 6, 
-            // maxLength: 12,
-          })}
-          className="form__text-input input-text" 
-          type="tel" 
-          placeholder="Phone" 
-          />
-        </div>
-        <label className="form__label" htmlFor="phone">
-          +38 (XXX) XXX - XX - XX
-        </label>
-
-
-        {/* CHECKBOX */}
-        <div className="form__checkbox-container">
-          <div className="form__checkbox-title">Select your position</div>
-            {positions.length > 0 ? positions.map(position => (
-              <p key={position.id} className="form__checkbox-radio">
-                <input 
-                className="form__radio-input"
-                type="radio" 
-                {...register('position_id', {
-                  required: true
+              }
+              {/* INPUT */}
+              <input
+                {...register('name', {
+                  required: true,
+                  minLength: 2,
+                  maxLength: 60
                 })}
-                id={position.id}
-                value={position.id}
+                style={errors?.name &&
+                {
+                  borderColor: '#CB3D40',
+                  border: '2px solid #CB3D40'
+                }
+                }
+                className="text-input-container__text-input input-text"
+                type="text"
+                placeholder="Your name"
+              />
+              {/* TIP */}
+              {errors?.name &&
+                <p className="text-input-container__tip tip"
+                  style={errors?.name &&
+                  {
+                    color: '#CB3D40',
+                  }
+                  }
+                >
+                  Username should contain 2-60 characters
+                </p>
+              }
+            </p>
+
+            {/* EMAIL */}
+            <p className="form__input-text-container text-input-container">
+              {/* INPUT */}
+              <input
+                style={errors?.email &&
+                {
+                  borderColor: '#CB3D40',
+                  border: '2px solid #CB3D40'
+                }
+                }
+                {...register('email', {
+                  required: true,
+                  minLength: 2,
+                  maxLength: 100,
+                  pattern: /^\S+@\S+$/i
+                })}
+                className="text-input-container__text-input input-text"
+                type="text"
+                placeholder="Email"
+              />
+              {errors?.email &&
+                <p className="text-input-container__tip tip" style={errors?.email && { color: '#CB3D40', }}>
+                  User email, must be a valid email according to <strong>RFC2822</strong>
+                </p>
+              }
+              {/* LABEL */}
+              {dirtyFields?.email &&
+                <label style={errors?.email && { color: '#CB3D40' }} className="text-input-container__label label" htmlFor="email">
+                  Email
+                </label>
+              }
+            </p>
+
+            {/* Phone */}
+            <p className="form__input-text-container text-input-container">
+
+              <input
+                {...register('phone', {
+                  required: true,
+                  minLength: 6,
+                  maxLength: 12,
+                })}
+                style={errors?.phone &&
+                {
+                  borderColor: '#CB3D40',
+                  border: '2px solid #CB3D40'
+
+                }
+                }
+                className="text-input-container__text-input input-text"
+                type="tel"
+                placeholder="Phone"
+              />
+              {dirtyFields?.phone &&
+                <label
+                  style={errors?.phone &&
+                    { color: '#CB3D40' }
+                  }
+                  className="text-input-container__label label" htmlFor="phone">
+                  Phone
+                </label>
+              }
+              {errors?.phone &&
+                <p
+                  style={errors?.phone &&
+                  {
+                    color: '#CB3D40',
+                  }
+                  }
+                  className="text-input-container__tip tip">
+                  +38 (XXX) XXX - XX - XX
+                </p>
+              }
+            </p>
+          </div>
+
+          {/* CHECKBOX */}
+          <div className="form__checkbox-container">
+            <div className="form__checkbox-title">
+              Select your position
+            </div>
+            {positions?.length > 0 && positions.map(position => (
+              <p key={position.id} className="form__checkbox-radio">
+                <input
+                  className="form__radio-input"
+                  type="radio"
+                  {...register('position_id', {
+                    required: true
+                  })}
+                  id={position.id}
+                  value={position.id}
                 />
                 <label htmlFor={position.id}>
                   {position.name}
                 </label>
+              </p>))}
+          </div>
+          {/* Photo */}
+          <label htmlFor="input-file" className="form__upload-container container-upload">
+            <span className="container-upload__button" style={errors?.photo && { border: '2px solid #CB3D40' }}>
+              Upload
+            </span>
+            <p className="file__placeholder input-text" style={errors?.photo && { border: '2px solid #CB3D40' }}>
+              {fileName}
             </p>
-            )
-            ): 
-              (
-                <div className="error">
-                No positions found
-                </div>
-              ) 
-            } 
-        </div>
-        {/* Photo */}
-        <label htmlFor="input-file" className="form__upload-container container-upload">
-          <span className="container-upload__button">
-            Upload
-          </span>
-          <p className="file__placeholder input-text">
-            Upload your photo
-          </p>
-          
-          <input 
-          type="file"  
-          id="input-file"
-          accept="image/jpeg,image/jpg"
-          className="container-upload__file-input"
-          {...register('photo', {
-            required: true
-          })}
-          />
 
-        </label>
-        <button type="submit" className="form__button button">
-          Sign up
-        </button>
+            <input
+              type="file"
+              id="input-file"
+              accept="image/jpeg,image/jpg"
+              className="container-upload__file-input"
+              {...register('photo', {
+                required: true,
+                onChange: (e) => {
+                  setFileName(e.target.files[0].name)
+                }
+              })}
+            />
+
+          </label>
+          {errors?.photo &&
+            <p className="text-input-container__tip tip"
+              style={errors?.photo && { color: 'CB3D40' }}>
+              Minimum size of photo 70x70px. The photo format must be jpeg/jpg type. The photo size must not be greater than 5 Mb.
+            </p>
+          }
+
+          <button type="submit" className="form__button button" disabled={!isValid}>
+            Sign up
+          </button>
         </form>
 
       </div>

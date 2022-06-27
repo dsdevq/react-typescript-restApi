@@ -35,7 +35,6 @@ const GetRequestComponent = () => {
       const result = await response.json()
       const totalPages = result.total_pages
       setPagesCount(totalPages)
-      console.log(result.users[0])
       users.length > 0 ? setUsers(oldArray => [...oldArray, ...result.users]) : setUsers(result.users)
       
     } catch (error) {
@@ -73,7 +72,7 @@ const GetRequestComponent = () => {
           />
       ))}
         </div>
-        <a  className="get-request__button button" 
+        <a href="#get-request" className="get-request__button button" 
         style={
           pagesCount === page ? 
           {
@@ -83,8 +82,8 @@ const GetRequestComponent = () => {
           {
           }
         }
-        onClick={() => showMore()}
-        >
+        id="showMore"
+        onClick={() => showMore()}>
           Show more
         </a>
       </div>

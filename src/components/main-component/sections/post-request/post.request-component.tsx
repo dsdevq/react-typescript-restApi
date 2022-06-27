@@ -183,7 +183,7 @@ function PostRequestComponent() {
                 {...register('phone', {
                   required: true,
                   minLength: 6,
-                  maxLength: 12,
+                  maxLength: 13,
                 })}
                 style={errors?.phone &&
                 {

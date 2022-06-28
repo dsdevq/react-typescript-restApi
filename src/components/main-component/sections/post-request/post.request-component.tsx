@@ -225,15 +225,15 @@ function PostRequestComponent() {
                   Phone
                 </label>
               }
-                <div
-                  style={errors?.phone &&
-                  {
-                    color: '#CB3D40',
-                  }
-                  }
-                  className="text-input-container__tip tip">
-                  +38 (XXX) XXX - XX - XX
-                </div>
+              <div
+                style={errors?.phone &&
+                {
+                  color: '#CB3D40',
+                }
+                }
+                className="text-input-container__tip tip">
+                +38 (XXX) XXX - XX - XX
+              </div>
             </div>
           </div>
 
@@ -292,7 +292,7 @@ function PostRequestComponent() {
             Sign up
           </button>
         </form>
-        {isSubmitSuccessful ? 
+        {isSubmitSuccessful ?
           <AfterSent />
           : null
         }

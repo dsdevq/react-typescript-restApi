@@ -18,13 +18,13 @@ function PostRequestComponent() {
   // GET POSITIONS
   const [positions, setPositions] = useState<any[]>([])
 
-
   // UPLOADING FILE
-  const [fileName, setFileName] = useState<string>('Upload your photo')
+  const [fileName, setFileName] = useState<string>('')
 
   const {
     register,
     handleSubmit,
+    reset,
     formState: {
       isValid,
       errors,
@@ -43,6 +43,8 @@ function PostRequestComponent() {
   })
 
 
+
+
   const getPositions = async (api: string) => {
     const response = await fetch(api)
     const result = await response.json()
@@ -53,6 +55,21 @@ function PostRequestComponent() {
   useEffect(() => {
     getPositions('https://frontend-test-assignment-api.abz.agency/api/v1/positions')
   }, [])
+
+  useEffect(() => {
+    setTimeout(() => {
+      reset(
+        {
+          "name": "",
+          "email": "",
+          "position_id": undefined,
+          "phone": '',
+          "photo": "",
+        }
+      )
+      setFileName('Upload your photo')
+    }, 5000);
+  }, [isSubmitSuccessful])
 
   const getTheToken = async (tokenUrl: string) => {
     try {
@@ -66,23 +83,21 @@ function PostRequestComponent() {
 
   const postUser = async (token: string, data: any) => {
     try {
-      console.log(data)
-      console.log(isSubmitSuccessful)
-      // const formData = new FormData()
-      // formData.append('position_id', data.position_id)
-      // formData.append('name', data.name)
-      // formData.append('email', data.email)
-      // formData.append('phone', data.phone)
-      // formData.append('photo', data.photo[0])
-      // const requestOptions = {
-      //   method: 'post',
-      //   headers: {
-      //     Token: token
-      //   },
-      //   body: formData
-      // }
-      // const response = await fetch('https://frontend-test-assignment-api.abz.agency/api/v1/users', requestOptions)
-      // return await response.json()
+      const formData = new FormData()
+      formData.append('position_id', data.position_id)
+      formData.append('name', data.name)
+      formData.append('email', data.email)
+      formData.append('phone', data.phone)
+      formData.append('photo', data.photo[0])
+      const requestOptions = {
+        method: 'post',
+        headers: {
+          Token: token
+        },
+        body: formData
+      }
+      const response = await fetch('https://frontend-test-assignment-api.abz.agency/api/v1/users', requestOptions)
+      return await response.json()
     } catch (error) {
       console.log('postUser api error: ', error);
     }
@@ -97,9 +112,9 @@ function PostRequestComponent() {
   return (
     <section id="post-request" className="main__post-request">
       <div className="post-request__container container-request">
-        <div className="post-request__title title">
+        <h1 className="post-request__title title">
           Working with POST request
-        </div>
+        </h1>
         {/* FORM */}
         <form className="post-request__form form" onSubmit={onSubmit}>
           <div className="form__text-container">
@@ -161,7 +176,7 @@ function PostRequestComponent() {
                   required: true,
                   minLength: 2,
                   maxLength: 100,
-                  pattern: /^\S+@\S+$/i
+                  pattern: /^(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])$/
                 })}
                 className="text-input-container__text-input input-text"
                 type="text"
@@ -188,6 +203,7 @@ function PostRequestComponent() {
                   required: true,
                   minLength: 6,
                   maxLength: 13,
+                  pattern: /^[\+]{0,1}380([0-9]{9})$/
                 })}
                 style={errors?.phone &&
                 {
@@ -209,7 +225,6 @@ function PostRequestComponent() {
                   Phone
                 </label>
               }
-              {errors?.phone &&
                 <div
                   style={errors?.phone &&
                   {
@@ -219,7 +234,6 @@ function PostRequestComponent() {
                   className="text-input-container__tip tip">
                   +38 (XXX) XXX - XX - XX
                 </div>
-              }
             </div>
           </div>
 
@@ -278,16 +292,13 @@ function PostRequestComponent() {
             Sign up
           </button>
         </form>
-        {isSubmitSuccessful? 
-        <AfterSent />
-        : null
+        {isSubmitSuccessful ? 
+          <AfterSent />
+          : null
         }
-
       </div>
     </section>
   )
-
-
 }
 
 export default PostRequestComponent

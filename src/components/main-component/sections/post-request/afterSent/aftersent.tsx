@@ -11,7 +11,7 @@ export const AfterSent = () => {
         User successfully registered
         </h1>
         <div className="after-sent__notification">
-          <img src={success} alt="" />
+          <img src={success} alt="Image" />
         </div>
       </div>
     </div>

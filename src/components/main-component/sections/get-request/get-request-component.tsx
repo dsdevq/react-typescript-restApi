@@ -26,23 +26,22 @@ const GetRequestComponent = () => {
   const [pagesCount, setPagesCount] = useState(null)
 
   // Loading
-  const [isLoading, setLoading] = useState(false)
+  const [isLoading, setLoading] = useState(true)
 
 
   useEffect(() => {
     getUsers(`https://frontend-test-assignment-api.abz.agency/api/v1/users?page=${page}&count=6`)
   }, [page])
   
-
   const getUsers = async (URL: any) => {
     try {
       setLoading(true)
-      const response = await fetch(URL)
-      const result = await response.json()
-      const totalPages = result.total_pages
-      setPagesCount(totalPages)
-      users.length > 0 ? setUsers(oldArray => [...oldArray, ...result.users]) : setUsers(result.users)
-      
+        const response = await fetch(URL)
+        const result = await response.json()
+        const totalPages = result.total_pages
+        const totalUsers = result.total_users
+        setPagesCount(totalPages)
+        users.length > 0 ? setUsers(oldArray => [...oldArray, ...result.users]) : setUsers(result.users)
     } catch (error) {
       console.log('getUsers api error: ', error);
     }

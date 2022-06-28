@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { AfterSent } from "./afterSent/aftersent";
 import './post.request-component.scss'
 
 interface FormValues {
@@ -27,7 +28,8 @@ function PostRequestComponent() {
     formState: {
       isValid,
       errors,
-      dirtyFields
+      dirtyFields,
+      isSubmitSuccessful
     }
   } = useForm<FormValues>({
     mode: 'onChange',
@@ -64,21 +66,23 @@ function PostRequestComponent() {
 
   const postUser = async (token: string, data: any) => {
     try {
-      const formData = new FormData()
-      formData.append('position_id', data.position_id)
-      formData.append('name', data.name)
-      formData.append('email', data.email)
-      formData.append('phone', data.phone)
-      formData.append('photo', data.photo[0])
-      const requestOptions = {
-        method: 'post',
-        headers: {
-          Token: token
-        },
-        body: formData
-      }
-      const response = await fetch('https://frontend-test-assignment-api.abz.agency/api/v1/users', requestOptions)
-      return await response.json()
+      console.log(data)
+      console.log(isSubmitSuccessful)
+      // const formData = new FormData()
+      // formData.append('position_id', data.position_id)
+      // formData.append('name', data.name)
+      // formData.append('email', data.email)
+      // formData.append('phone', data.phone)
+      // formData.append('photo', data.photo[0])
+      // const requestOptions = {
+      //   method: 'post',
+      //   headers: {
+      //     Token: token
+      //   },
+      //   body: formData
+      // }
+      // const response = await fetch('https://frontend-test-assignment-api.abz.agency/api/v1/users', requestOptions)
+      // return await response.json()
     } catch (error) {
       console.log('postUser api error: ', error);
     }
@@ -100,7 +104,7 @@ function PostRequestComponent() {
         <form className="post-request__form form" onSubmit={onSubmit}>
           <div className="form__text-container">
             {/* Name */}
-            <p className="form__input-text-container text-input-container">
+            <div className="form__input-text-container text-input-container">
               {/* LABEL */}
               {dirtyFields?.name &&
                 <label
@@ -131,7 +135,7 @@ function PostRequestComponent() {
               />
               {/* TIP */}
               {errors?.name &&
-                <p className="text-input-container__tip tip"
+                <div className="text-input-container__tip tip"
                   style={errors?.name &&
                   {
                     color: '#CB3D40',
@@ -139,12 +143,12 @@ function PostRequestComponent() {
                   }
                 >
                   Username should contain 2-60 characters
-                </p>
+                </div>
               }
-            </p>
+            </div>
 
             {/* EMAIL */}
-            <p className="form__input-text-container text-input-container">
+            <div className="form__input-text-container text-input-container">
               {/* INPUT */}
               <input
                 style={errors?.email &&
@@ -164,9 +168,9 @@ function PostRequestComponent() {
                 placeholder="Email"
               />
               {errors?.email &&
-                <p className="text-input-container__tip tip" style={errors?.email && { color: '#CB3D40', }}>
+                <div className="text-input-container__tip tip" style={errors?.email && { color: '#CB3D40', }}>
                   User email, must be a valid email according to <strong>RFC2822</strong>
-                </p>
+                </div>
               }
               {/* LABEL */}
               {dirtyFields?.email &&
@@ -174,10 +178,10 @@ function PostRequestComponent() {
                   Email
                 </label>
               }
-            </p>
+            </div>
 
             {/* Phone */}
-            <p className="form__input-text-container text-input-container">
+            <div className="form__input-text-container text-input-container">
 
               <input
                 {...register('phone', {
@@ -206,7 +210,7 @@ function PostRequestComponent() {
                 </label>
               }
               {errors?.phone &&
-                <p
+                <div
                   style={errors?.phone &&
                   {
                     color: '#CB3D40',
@@ -214,9 +218,9 @@ function PostRequestComponent() {
                   }
                   className="text-input-container__tip tip">
                   +38 (XXX) XXX - XX - XX
-                </p>
+                </div>
               }
-            </p>
+            </div>
           </div>
 
           {/* CHECKBOX */}
@@ -225,7 +229,7 @@ function PostRequestComponent() {
               Select your position
             </div>
             {positions?.length > 0 && positions.map(position => (
-              <p key={position.id} className="form__checkbox-radio">
+              <div key={position.id} className="form__checkbox-radio">
                 <input
                   className="form__radio-input"
                   type="radio"
@@ -238,16 +242,16 @@ function PostRequestComponent() {
                 <label htmlFor={position.id}>
                   {position.name}
                 </label>
-              </p>))}
+              </div>))}
           </div>
           {/* Photo */}
           <label htmlFor="input-file" className="form__upload-container container-upload">
             <span className="container-upload__button" style={errors?.photo && { border: '2px solid #CB3D40' }}>
               Upload
             </span>
-            <p className="file__placeholder input-text" style={errors?.photo && { border: '2px solid #CB3D40' }}>
+            <div className="file__placeholder input-text" style={errors?.photo && { border: '2px solid #CB3D40' }}>
               {fileName}
-            </p>
+            </div>
 
             <input
               type="file"
@@ -264,16 +268,20 @@ function PostRequestComponent() {
 
           </label>
           {errors?.photo &&
-            <p className="text-input-container__tip tip"
+            <div className="text-input-container__tip tip"
               style={errors?.photo && { color: 'CB3D40' }}>
               Minimum size of photo 70x70px. The photo format must be jpeg/jpg type. The photo size must not be greater than 5 Mb.
-            </p>
+            </div>
           }
 
           <button type="submit" className="form__button button" disabled={!isValid}>
             Sign up
           </button>
         </form>
+        {isSubmitSuccessful? 
+        <AfterSent />
+        : null
+        }
 
       </div>
     </section>

@@ -21,7 +21,3 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-src/components/main-component/sections/post-request/formParts/labelComponent.tsx
-src/components/main-component/sections/post-request/formParts/textInputComponent.tsx
-src/components/main-component/sections/post-request/afterSent/aftersent.scss
-src/components/main-component/sections/post-request/afterSent/aftersent.tsx

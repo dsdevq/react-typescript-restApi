@@ -28,5 +28,34 @@
   }
   &__email {
     word-break: break-word;
+    position: relative;
+    &::before {
+      content: attr(data-hover);
+      word-break: normal;
+      visibility: hidden;
+      opacity: 0;
+      background: rgba(0, 0, 0, 0.87);
+      color: #fff;
+      text-align: center;
+      border-radius: 4px;
+      padding: 3px 16px;
+      transition: opacity 0.3s ease-in-out;
+    
+      position: absolute;
+      z-index: 1;
+      right: 0;
+      top: 180%;
+    }
+
+    &:hover:before {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+}
+
+.content-request {
+  &__photo,&__name, &__details {
+    cursor: pointer;
   }
 }

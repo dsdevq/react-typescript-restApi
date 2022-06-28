@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { LoaderComponent } from "../../../loader/loader";
 import './get-request-component.scss'
 import GetRequestItemComponent from "./get-request-item/get-request-item-component";
 
@@ -24,6 +25,10 @@ const GetRequestComponent = () => {
   // ALL PAGES
   const [pagesCount, setPagesCount] = useState(null)
 
+  // Loading
+  const [isLoading, setLoading] = useState(false)
+
+
   useEffect(() => {
     getUsers(`https://frontend-test-assignment-api.abz.agency/api/v1/users?page=${page}&count=6`)
   }, [page])
@@ -31,6 +36,7 @@ const GetRequestComponent = () => {
 
   const getUsers = async (URL: any) => {
     try {
+      setLoading(true)
       const response = await fetch(URL)
       const result = await response.json()
       const totalPages = result.total_pages
@@ -40,6 +46,7 @@ const GetRequestComponent = () => {
     } catch (error) {
       console.log('getUsers api error: ', error);
     }
+    setLoading(false)
   }
 
   const showMore = () => {
@@ -55,7 +62,10 @@ const GetRequestComponent = () => {
         <div className="get-request__title title">
         Working with GET request
         </div>
-        <div className="get-request__content content-request">
+        {isLoading ? 
+        <LoaderComponent />
+         : 
+         <div className="get-request__content content-request">
         {users.length > 0 && users.sort((a, b) => a.registration_timestamp < b.registration_timestamp ? 1 : -1).map(user => (
         <GetRequestItemComponent 
 
@@ -71,10 +81,11 @@ const GetRequestComponent = () => {
           key={user.id}
           />
       ))}
-        </div>
-        <a href="#get-request" className="get-request__button button" 
+        </div> 
+        } 
+        <button className="get-request__button button" 
         style={
-          pagesCount === page ? 
+          pagesCount === page ?  
           {
             display: "none"
           } 
@@ -85,7 +96,7 @@ const GetRequestComponent = () => {
         id="showMore"
         onClick={() => showMore()}>
           Show more
-        </a>
+        </button>
       </div>
     </section>
   )

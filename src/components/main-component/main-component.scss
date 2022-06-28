@@ -40,18 +40,12 @@ $Disabled: #B4B4B4;
   background-color: $Hover;
 }
 
-.label {
-  position: absolute;
-}
-
 .input-text {
   padding: 14px 0 14px 16px;
   border: 1px solid #D0CFCF;
   border-radius: 4px 4px 4px 4px;
   font-size: inherit;
   background: #F8F8F8;
-  &::after {
-  }
 }
 
 
@@ -63,3 +57,4 @@ $tipColor: #7E7E7E;
   font-size: 12px;
   line-height: 14px;
 }
+

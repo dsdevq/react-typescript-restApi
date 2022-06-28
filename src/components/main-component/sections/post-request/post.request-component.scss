@@ -1,4 +1,3 @@
-
 .post-request {
   &__container {
     align-items: center;
@@ -9,7 +8,6 @@
     width: 100%;
     flex-direction: column;
   }
-
 }
 
 .form {
@@ -18,13 +16,6 @@
     grid-template-columns: repeat(1, 1fr);
     gap: 50px;
   }
-  &__radio-input {
-    // display: none;
-  }
-  &__label {
-    
-  }
-
   &__checkbox-container {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
@@ -71,9 +62,6 @@
     padding: 0 4px;
     left: 11px;
   }
-  &__tip {
-
-  }
 }
 
 
@@ -88,75 +76,47 @@
 }
 
 
-// $
-
-[type="radio"]:checked,
-[type="radio"]:not(:checked) {
-    position: absolute;
-}
+// $ RADIO BUTTONS STYLE
 
 [type="radio"]:checked + label,
 [type="radio"]:not(:checked) + label
 {
     position: relative;
-    padding-left: 28px;
     cursor: pointer;
     line-height: 20px;
     display: inline-block;
 }
 
-
+// Initial radio buttons display none
 input[type="radio"] {
-  height: 1.2rem;
-  width: 1.2rem;
-
+  display: none;
 }
 
-// 
-// [type="radio"]:checked + label:before,
-// [type="radio"]:not(:checked) + label:before {
-//     content: '';
-//     position: absolute;
-//     left: 0;
-//     top: 0;
-//     width: 18px;
-//     height: 18px;
-//     border: 1px solid #D0CFCF;
-//     border-radius: 100%;
-//     background: #fff;
-// }
+// Before checked styles
+input[type="radio"] + *::before {
+  content: "";
+  display: inline-block;
+  vertical-align: bottom;
+  
+  width: 18px;
+  height: 18px;
 
-// // 
-// [type="radio"]:checked + label:after,
-// [type="radio"]:not(:checked) + label:after {
-//     content: '';
-//     width: 10px;
-//     height: 10px;
-//     background: #00BDD3;
-//     // border: 1px solid #000000;
-//     position: absolute;
-//     top: 5px;
-//     left: 5px;
-//     border-radius: 50%;
-//     -webkit-transition: all 0.2s ease;
-//     transition: all 0.2s ease;
-// }
+  margin-right: 12px;
+  border: 1px solid #D0CFCF;
+  border-radius: 50%;
+}
 
-// // Select
-// [type="radio"]:not(:checked) + label:after {
-//     opacity: 0;
-//     -webkit-transform: scale(0);
-//     transform: scale(0);
-// }
-// [type="radio"]:checked + label:after {
-//     opacity: 1;
-//     -webkit-transform: scale(1);
-//     transform: scale(1);
-// }
+// CHECKED
+input[type="radio"]:checked + *::before {
+  background: radial-gradient(#00BDD3 0%, #00BDD3 40%, transparent 42%, transparent);
+  border-color: #00BDD3;
+}
+
+
+
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 // INPUT FILE
-
 .container-upload {
   position: relative;
   display: flex;

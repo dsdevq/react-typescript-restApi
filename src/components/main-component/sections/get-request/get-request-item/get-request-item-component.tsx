@@ -12,15 +12,15 @@ const GetRequestItemComponent: FunctionComponent<UserProps> = (props) => {
         {props.name}
       </div>
       <div className="content-request__details">
-      <div className="content-request__position">
-        {props.position}
-      </div>
-      <div className="content-request__email" data-hover={props.email}>
-        {props.email}
-      </div>
-      <div className="content-request__phone">
-        {props.phone}
-      </div>
+        <div className="content-request__position">
+          {props.position}
+        </div>
+        <div className="content-request__email" data-hover={props.email}>
+          {props.email}
+        </div>
+        <div className="content-request__phone">
+          {props.phone}
+        </div>
       </div>
     </div>
   )

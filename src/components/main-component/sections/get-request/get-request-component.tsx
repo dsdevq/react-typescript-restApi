@@ -14,46 +14,14 @@ export interface UserProps {
   registration_timestamp: number,
 }
 
-const GetRequestComponent = () => {
+const GetRequestComponent = ({ page, setPage, isLoading, users, pagesCount }: any) => {
 
-  // Users from 1 page
-  const [users, setUsers] = useState<UserProps[]>([])
-
-  // Current page
-  const [page, setPage] = useState(1)
-
-  // ALL PAGES
-  const [pagesCount, setPagesCount] = useState(null)
-
-  // Loading
-  const [isLoading, setLoading] = useState(true)
-
-
-  useEffect(() => {
-    getUsers(`https://frontend-test-assignment-api.abz.agency/api/v1/users?page=${page}&count=6`)
-  }, [page])
-
-  const getUsers = async (URL: any) => {
-    try {
-      setLoading(true)
-      const response = await fetch(URL)
-      const result = await response.json()
-      const totalPages = result.total_pages
-      setPagesCount(totalPages)
-      users.length > 0 ? setUsers(oldArray => [...oldArray, ...result.users]) : setUsers(result.users)
-    } catch (error) {
-      console.log('getUsers api error: ', error);
-    }
-    setLoading(false)
-  }
 
   const showMore = () => {
     setPage(page + 1)
   }
 
-
   return (
-
 
     <section id="get-request" className="main__get-request">
       <div className="get-request__container container-request">
@@ -64,8 +32,8 @@ const GetRequestComponent = () => {
           <LoaderComponent />
           :
           <div className="get-request__content content-request">
-            {users.length > 0 && users.sort((a, b) => a.registration_timestamp < b.registration_timestamp ? 1 : -1)
-              .map(user => (
+            {users.length > 0 && users.sort((a: { registration_timestamp: number; }, b: { registration_timestamp: number; }) => a.registration_timestamp < b.registration_timestamp ? 1 : -1)
+              .map((user: JSX.IntrinsicAttributes & UserProps) => (
                 <GetRequestItemComponent {...user} key={user.id} />
               ))}
           </div>

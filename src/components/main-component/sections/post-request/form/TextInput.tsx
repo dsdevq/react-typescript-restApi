@@ -2,9 +2,6 @@ import React from 'react'
 
 export default function TextInput({ register, errors, dirtyFields, name, placeholder, label, tip }: any) {
 
-
-
-
   return (
     <div className="form__input-text-container text-input-container">
       {/* INPUT */}

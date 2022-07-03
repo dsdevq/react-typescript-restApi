@@ -1,7 +1,5 @@
 import React from 'react'
 import './Radio.scss'
-import { Position } from './RadioContainer'
-
 
 export const RadioInput = ( { register, position} : any) => {
 

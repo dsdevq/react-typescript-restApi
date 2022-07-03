@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { FieldErrors } from 'react-hook-form'
-import { FormValues } from '../FormBody'
+import { errorStyle, FormValues } from '../FormBody'
 import './FileInput.scss'
 
 interface FileInput {
@@ -41,10 +41,10 @@ export default function FileInput({ fileName, setFileName, register, errors, isS
   return (
     <>
       <label htmlFor="input-file" className="form__upload-container container-upload">
-        <span className="container-upload__button" style={errors?.photo && { border: '2px solid #CB3D40' }}>
+        <span className="container-upload__button" style={errors?.photo && errorStyle.border}>
           Upload
         </span>
-        <div className="container-upload__placeholder input-text" style={errors?.photo && { border: '2px solid #CB3D40', borderLeft: 'none' }}>
+        <div className="container-upload__placeholder input-text" style={errors?.photo && {...errorStyle.border, borderLeft: 'none'} }>
           {fileName}
         </div>
 

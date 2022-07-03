@@ -3,10 +3,7 @@ import Form from "./form/Form";
 
 import './post.request-component.scss'
 
-
-
 function PostRequestComponent( { setAddedUser }: any) {
-
 
   return (
     <section id="post-request" className="main__post-request">

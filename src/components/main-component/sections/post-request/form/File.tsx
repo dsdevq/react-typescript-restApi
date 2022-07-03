@@ -4,7 +4,6 @@ export default function File({ fileName, setFileName, register, errors, isSubmit
 
   useEffect(() => {
     setFileName('Upload your photo')
-    errors?.valueOf() && console.log('adasdasdasas')
   }, [isSubmitSuccessful])
 
   const validateImageSize = (file: Blob | MediaSource, minWidth: number, minHeight: number) => {
@@ -50,7 +49,6 @@ export default function File({ fileName, setFileName, register, errors, isSubmit
               lessThan5MB: (files: { size: number }[]) => files[0]?.size < 5000000 || "Max 5MB",
             },
             onChange: (e: { target: { files: { name: React.SetStateAction<string>; }[]; }; }) => {
-              // newImage(e.target.files[0])
               setFileName(e.target.files[0].name);
             }
           })}

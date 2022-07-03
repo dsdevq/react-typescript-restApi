@@ -4,8 +4,6 @@ import { AfterSent } from '../afterSent/aftersent';
 import Checkboxes from './checkboxes';
 import File from './File';
 import TextInput from './TextInput';
-import * as yup from 'yup'
-import { yupResolver } from '@hookform/resolvers/yup';
 
 const TOKEN_URL = 'https://frontend-test-assignment-api.abz.agency/api/v1/token'
 
@@ -17,54 +15,15 @@ interface FormValues {
   position_id: number,
 }
 
-// !!!!!!!!!!!!!!!!!!!
-// const schema = yup
-//   .object()
-//   .shape({
-//     photo: yup.mixed().required()
-//     .test("fileSize","The file is too large",
-//       (value) => {
-//         if (value) {
-//           console.log(value)
-//           return value && value[0].size <= 5000000
-//         }
-//       }
-//     )
-//   })
-
-// !!!!!!!!!!!!!!!!!!!
-// const newImage = (image: any) => {
-//   const myImage = new Image()
-//   myImage.src = window.URL.createObjectURL(image[0])
-//   console.log(myImage.width)
-//   console.log(myImage.onload = () => {
-//     return myImage.width
-//   })
-//   return ((myImage.onload = () => myImage.width)())
-// }
-
-// !!!!!!!!!!!!!!!!!!!
-// const ValidateImg = (file: any) =>{
-//   let img = new Image()
-//   img.src = window.URL.createObjectURL(file)
-//   return img.onload = () => {
-//       if(img.width < 70 && img.height < 70){
-//         alert("Correct size");
-//         return true;
-//       }
-//       alert("Incorrect size");
-//       return false;
-//   }
-// }
-
-// !!!!!!!!!!!!!!!!!!!
-
-
 export default function Form({
   setAddedUser
 }: any) {
 
   const [fileName, setFileName] = useState<string>('Upload your photo')
+  const [status, setStatus] = useState({
+    status: false,
+    message: ''
+    })
 
   const {
     register,
@@ -86,7 +45,6 @@ export default function Form({
       "phone": '',
       "photo": "",
     },
-    // !!!!!!!!!!!!!!!!!!!
   })
 
 
@@ -131,7 +89,17 @@ export default function Form({
         body: formData
       }
       const response = await fetch('https://frontend-test-assignment-api.abz.agency/api/v1/users', requestOptions)
-      return await response.json()
+      return await response.json().then(function (data) {
+        setStatus({
+          status: data.success,
+          message: data.message
+        })
+        if (data.success) { // success response 
+          console.log(data)
+        } else { // server errors 
+          console.log(data)
+        }
+      })
     } catch (error) {
       console.log('postUser api error: ', error);
     }
@@ -244,7 +212,7 @@ export default function Form({
         </button>
       </form>
       {isSubmitted?.valueOf() &&
-        <AfterSent />
+        <AfterSent status={status.status} message={status.message} />
       }
     </>
   );

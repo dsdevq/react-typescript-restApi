@@ -1,29 +1,31 @@
 import React, { useEffect, useState } from 'react';
-import { useForm } from "react-hook-form";
-import { AfterSent } from '../afterSent/aftersent';
-import Checkboxes from './checkboxes';
-import File from './File';
-import TextInput from './TextInput';
+import './FormBody.scss'
+import { useForm, UseFormRegister } from "react-hook-form";
+import FileInput from './FileInput/FileInput';
+import { AfterSent } from './AfterSent/AfterSent';
+import TextInput from './TextInput/TextInput';
+import { RadioContainer } from './RadioInput/RadioContainer';
+import { SetAddedUser } from '../PostRequest';
 
 const TOKEN_URL = 'https://frontend-test-assignment-api.abz.agency/api/v1/token'
 
-interface FormValues {
-  email: string,
+export interface FormValues {
   name: string,
+  email: string,
   phone: string,
   photo: string,
-  position_id: number,
+  position_id: string,
 }
 
-export default function Form({
+export default function FormBody({
   setAddedUser
-}: any) {
+}: SetAddedUser ) {
 
   const [fileName, setFileName] = useState<string>('Upload your photo')
   const [status, setStatus] = useState({
     status: false,
     message: ''
-    })
+  })
 
   const {
     register,
@@ -73,7 +75,7 @@ export default function Form({
     }
   }
 
-  const postUser = async (token: string, data: any) => {
+  const postUser = async (token: string, data: FormValues ) => {
     try {
       const formData = new FormData()
       formData.append('position_id', data.position_id)
@@ -95,6 +97,7 @@ export default function Form({
           message: data.message
         })
         if (data.success) { // success response 
+          setAddedUser(true)
           console.log(data)
         } else { // server errors 
           console.log(data)
@@ -110,7 +113,6 @@ export default function Form({
     event?.preventDefault()
     const token = await getTheToken(TOKEN_URL)
     await postUser(token, data)
-    await setAddedUser(true)
   })
 
 
@@ -120,7 +122,6 @@ export default function Form({
       <form className="post-request__form form" onSubmit={onSubmit}>
         <div className="form__text-container">
           {/* NAME */}
-          <>
             <TextInput
               register={
                 {
@@ -138,9 +139,7 @@ export default function Form({
               placeholder='Your name'
               tip='Username should contain 2-60 characters'
             />
-          </>
           {/* EMAIL */}
-          <>
             <TextInput register={
               {
                 ...register('email', {
@@ -164,9 +163,7 @@ export default function Form({
                 )
               }
             />
-          </>
           {/* Phone */}
-          <>
             <TextInput
               register={
                 {
@@ -185,28 +182,19 @@ export default function Form({
               label="Phone"
               tip="+38 (XXX) XXX - XX - XX"
             />
-          </>
         </div>
         {/* CHECKBOX */}
-        <>
-          <div className="form__checkbox-container">
-            <div className="form__checkbox-title">
-              Select your position
-            </div>
-            {/* Checkboxes */}
-            <Checkboxes register={register} />
-          </div>
+          <RadioContainer 
+          register={register} 
+          />
           {/* Photo */}
-          <File
+          <FileInput
             fileName={fileName}
             setFileName={setFileName}
             register={register}
-            // valid={schema}
-            // ! Было errors
             errors={errors}
             isSubmitSuccessful={isSubmitSuccessful}
           />
-        </>
         <button type="submit" className="form__button button" disabled={!isValid}>
           Sign up
         </button>

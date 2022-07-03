@@ -1,25 +1,25 @@
 import React, { FunctionComponent } from "react";
-import './get-request-item-component.scss'
-import { UserProps } from "../get-request-component";
+import { UserProps } from "../../../Main";
+import './Item.scss'
 
-const GetRequestItemComponent: FunctionComponent<UserProps> = (props) => {
+const GetRequestItemComponent: FunctionComponent<UserProps> = ( { photo, name, position, email, phone } ) => {
   return (
     <div className="content-request__item">
       <div className="content-request__photo">
-        <img src={props.photo} alt="Photo" />
+        <img src={photo} alt="Photo" />
       </div>
       <div className="content-request__name">
-        {props.name}
+        {name}
       </div>
       <div className="content-request__details">
         <div className="content-request__position">
-          {props.position}
+          {position}
         </div>
-        <div className="content-request__email" data-hover={props.email}>
-          {props.email}
+        <div className="content-request__email" data-hover={email}>
+          {email}
         </div>
         <div className="content-request__phone">
-          {props.phone}
+          {phone}
         </div>
       </div>
     </div>

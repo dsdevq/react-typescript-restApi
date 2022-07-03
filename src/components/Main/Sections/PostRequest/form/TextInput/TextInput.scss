@@ -1,0 +1,22 @@
+.text-input-container {
+  position: relative;
+  &__label {
+    position: absolute;
+    background: #F8F8F8;
+    font-size: 12px;
+    line-height: 14px;
+    color: #7E7E7E;
+    top: -7px;
+    padding: 0 4px;
+    left: 11px;
+  }
+}
+
+.input-text {
+  width: 100%;
+  padding: 14px 0 14px 16px;
+  border: 1px solid #D0CFCF;
+  border-radius: 4px 4px 4px 4px;
+  font-size: inherit;
+  background: #F8F8F8;
+}

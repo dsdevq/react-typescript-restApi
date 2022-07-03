@@ -1,0 +1,29 @@
+.container-upload {
+  position: relative;
+  display: flex;
+
+  &__file-input {
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    outline: none;
+  }
+  // 
+  &__placeholder {
+    border-left: none;
+    border-radius: 0px 4px 4px 0px;
+    word-break: break-word;
+    flex: 1;
+  }
+
+  // Upload button
+  &__button {
+    display: grid;
+    place-content: center;
+    border: 1px solid black;
+    background-color: white;
+    border-radius: 4px 0 0 4px;
+    padding: 14px 15px;
+  }
+}

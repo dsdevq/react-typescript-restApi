@@ -1,0 +1,66 @@
+// $ RADIO BUTTONS STYLE
+
+[type="radio"]:checked + label,
+[type="radio"]:not(:checked) + label
+{
+    position: relative;
+    cursor: pointer;
+    line-height: 20px;
+    display: inline-block;
+}
+
+// Initial radio buttons display none
+input[type="radio"] {
+  display: none;
+}
+
+// Before checked styles
+input[type="radio"] + *::before {
+  content: "";
+  display: inline-block;
+  vertical-align: bottom;
+  
+  width: 18px;
+  height: 18px;
+
+  margin-right: 12px;
+  border: 1px solid #D0CFCF;
+  border-radius: 50%;
+}
+
+// CHECKED
+input[type="radio"]:checked + *::before {
+  background: radial-gradient(#00BDD3 0%, #00BDD3 40%, transparent 42%, transparent);
+  border-color: #00BDD3;
+}
+
+// RadioContainer 
+
+.form {
+  
+  &__checkbox-container {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    margin-top: 25px;
+    margin-bottom: 47px;
+  }
+  
+  &__checkbox-title {
+    margin-bottom: 11px;
+  }
+  
+  &__checkboxes {
+    display: grid;
+    gap: 7px;
+  }
+  // RadioInput
+
+  &__checkbox-radio {
+    display: flex;
+    align-items: center;
+    &:not(:last-child) {
+      margin-bottom: 7px;
+    }
+  }
+  
+}

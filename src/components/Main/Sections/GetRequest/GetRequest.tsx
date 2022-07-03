@@ -1,21 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { LoaderComponent } from "../../../loader/loader";
-import './get-request-component.scss'
-import GetRequestItemComponent from "./get-request-item/get-request-item-component";
+import React from "react";
+import { Loader } from "../../../Loader/Loader";
+import { UserProps } from "../../Main";
+import './GetRequest.scss'
+import GetRequestItemComponent from "./Item/Item";
 
-export interface UserProps {
-  email: string,
-  id: number,
-  name: string,
-  phone: number,
-  photo: string,
-  position: string,
-  position_id: number,
-  registration_timestamp: number,
+interface GetRequest {
+  page: number,
+  setPage: (page: number) => void,
+  isLoading: boolean,
+  users: UserProps[],
+  pagesCount: number
 }
 
-const GetRequestComponent = ({ page, setPage, isLoading, users, pagesCount }: any) => {
-
+const GetRequestComponent = ({ page, setPage, isLoading, users, pagesCount }: GetRequest) => {
 
   const showMore = () => {
     setPage(page + 1)
@@ -29,7 +26,7 @@ const GetRequestComponent = ({ page, setPage, isLoading, users, pagesCount }: an
           Working with GET request
         </div>
         {isLoading ?
-          <LoaderComponent />
+          <Loader />
           :
           <div className="get-request__content content-request">
             {users.length > 0 && users.sort((a: { registration_timestamp: number; }, b: { registration_timestamp: number; }) => a.registration_timestamp < b.registration_timestamp ? 1 : -1)

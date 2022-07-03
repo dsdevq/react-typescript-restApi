@@ -1,0 +1,16 @@
+.form {
+  
+  // Text input container
+  &__text-container {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 50px;
+  }
+
+  // Button
+  &__button {
+    margin-top: 50px;
+    min-width: 100px;
+    align-self: center;
+  }
+}

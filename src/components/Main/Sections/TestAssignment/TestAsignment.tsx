@@ -1,9 +1,8 @@
 import React from "react";
-import './test-asignment-component.scss'
+import './TestAsignment.scss'
 
 
-const TestAsignmentComponent = () => {
-
+export const TestAsignment = () => {
 
   return (
     <section className="main__asignment asignment-section">
@@ -23,5 +22,3 @@ const TestAsignmentComponent = () => {
     </section>
   )
 }
-
-export default TestAsignmentComponent

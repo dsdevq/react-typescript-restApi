@@ -1,9 +1,13 @@
-import React, { useEffect, useState } from "react";
-import Form from "./form/Form";
+import React from "react";
+import FormBody from "./form/FormBody";
 
-import './post.request-component.scss'
+import './PostRequest.scss'
 
-function PostRequestComponent( { setAddedUser }: any) {
+export interface SetAddedUser {
+  setAddedUser: (addedUser: boolean) => void
+}
+
+export const PostRequest = ( { setAddedUser }: SetAddedUser  ) => {
 
   return (
     <section id="post-request" className="main__post-request">
@@ -11,12 +15,10 @@ function PostRequestComponent( { setAddedUser }: any) {
         <h1 className="post-request__title title">
           Working with POST request
         </h1>
-        <Form 
+        <FormBody 
         setAddedUser={setAddedUser}
         />
       </div>
     </section>
   )
 }
-
-export default PostRequestComponent

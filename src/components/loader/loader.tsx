@@ -1,8 +1,8 @@
 import React from "react";
-import './loader.scss'
+import './Loader.scss'
 import loader from "../../Assets/Preloader.png"
 
-export const LoaderComponent = () => {
+export const Loader = () => {
   
   return (
     <div className="loader-container">

@@ -1,9 +1,24 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
+import { FieldError } from 'react-hook-form/dist/types'
+import './TextInput.scss'
 
-export default function TextInput({ register, errors, dirtyFields, name, placeholder, label, tip }: any) {
+interface TextInput {
+  register: object,
+  errors: FieldError | undefined,
+  dirtyFields: boolean | undefined,
+  name: string,
+  placeholder: string,
+  label: string,
+  tip: string | ReactNode
+}
+
+export default function TextInput({ register, errors, dirtyFields, name, placeholder, label, tip }: TextInput) {
 
   return (
-    <div className="form__input-text-container text-input-container">
+    <div className="form__input-text-container text-input-container"
+    // className={errors ? { name } &&
+    // }
+    >
       {/* INPUT */}
       <input
         style={errors ? { name } &&

@@ -1,6 +1,6 @@
 import React from "react";
-import success from "../../../../../Assets/success-image.svg"
-import './aftersent.scss'
+import success from "../../../../../../Assets/success-image.svg"
+import './AfterSent.scss'
 
 export const AfterSent = ({ status, message }: { status: boolean; message: string; }) => {
 

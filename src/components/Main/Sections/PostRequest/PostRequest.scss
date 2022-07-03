@@ -1,0 +1,14 @@
+.post-request {
+  &__container {
+    align-items: center;
+  }
+  &__form {
+    display: flex;
+    max-width: 380px;
+    width: 100%;
+    flex-direction: column;
+  }
+}
+
+
+

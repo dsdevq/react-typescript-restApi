@@ -1,6 +1,9 @@
 import React from 'react'
+import './Radio.scss'
+import { Position } from './RadioContainer'
 
-export default function Checkbox( { register, position }: any)  {
+
+export const RadioInput = ( { register, position} : any) => {
 
   return (
     <div  className="form__checkbox-radio">

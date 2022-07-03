@@ -1,6 +1,5 @@
 .content-request {
   &__item {
-    transition: all 0.5s ease-in;
     background-color: white;
     border-radius: 16px;
     padding: 20px;
@@ -22,10 +21,11 @@
     border-radius: 50%;
     }
   }
-
+  
   &__details {
     white-space: pre-wrap;
   }
+  // EMAIL
   &__email {
     word-break: break-word;
     position: relative;

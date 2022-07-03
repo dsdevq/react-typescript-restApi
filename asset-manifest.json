@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/react-typescript-restApi/static/css/main.52baaa90.css",
-    "main.js": "/react-typescript-restApi/static/js/main.b2595afd.js",
+    "main.css": "/react-typescript-restApi/static/css/main.f12096b1.css",
+    "main.js": "/react-typescript-restApi/static/js/main.a9ef6acd.js",
     "static/media/success-image.svg": "/react-typescript-restApi/static/media/success-image.0d3202ba11b04fa7364b0f83ce42aea5.svg",
     "static/media/Logo.svg": "/react-typescript-restApi/static/media/Logo.8bb55362d01d55393ccc5476d96f0c14.svg",
     "static/media/background1.webp": "/react-typescript-restApi/static/media/background1.37d906d610940545acb1.webp",
     "index.html": "/react-typescript-restApi/index.html",
-    "main.52baaa90.css.map": "/react-typescript-restApi/static/css/main.52baaa90.css.map",
-    "main.b2595afd.js.map": "/react-typescript-restApi/static/js/main.b2595afd.js.map"
+    "main.f12096b1.css.map": "/react-typescript-restApi/static/css/main.f12096b1.css.map",
+    "main.a9ef6acd.js.map": "/react-typescript-restApi/static/js/main.a9ef6acd.js.map"
   },
   "entrypoints": [
-    "static/css/main.52baaa90.css",
-    "static/js/main.b2595afd.js"
+    "static/css/main.f12096b1.css",
+    "static/js/main.a9ef6acd.js"
   ]
 }

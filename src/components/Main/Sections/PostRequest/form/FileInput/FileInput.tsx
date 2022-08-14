@@ -3,7 +3,7 @@ import { FieldErrors } from 'react-hook-form'
 import { errorStyle, FormValues } from '../FormBody'
 import './FileInput.scss'
 
-interface FileInput {
+interface FileInputInterface {
   fileName: string,
   setFileName: (file: string | any) => void,
   register: any,
@@ -11,11 +11,11 @@ interface FileInput {
   isSubmitSuccessful: boolean
 }
 
-export default function FileInput({ fileName, setFileName, register, errors, isSubmitSuccessful }: FileInput) {
+export default function FileInput({ fileName, setFileName, register, errors, isSubmitSuccessful }: FileInputInterface) {
 
   useEffect(() => {
     setFileName('Upload your photo')
-  }, [isSubmitSuccessful])
+  }, [isSubmitSuccessful, setFileName])
 
   const validateImageSize = (file: Blob | MediaSource, minWidth: number, minHeight: number) => {
     var img = new Image();
@@ -44,7 +44,7 @@ export default function FileInput({ fileName, setFileName, register, errors, isS
         <span className="container-upload__button" style={errors?.photo && errorStyle.border}>
           Upload
         </span>
-        <div className="container-upload__placeholder input-text" style={errors?.photo && {...errorStyle.border, borderLeft: 'none'} }>
+        <div className="container-upload__placeholder input-text" style={errors?.photo && { ...errorStyle.border, borderLeft: 'none' }}>
           {fileName}
         </div>
 
@@ -56,7 +56,7 @@ export default function FileInput({ fileName, setFileName, register, errors, isS
           {...register('photo', {
             required: true,
             validate: {
-              imageWidth: (files: (Blob | MediaSource)[] ) => validateImageSize(files[0], 70, 70),
+              imageWidth: (files: (Blob | MediaSource)[]) => validateImageSize(files[0], 70, 70),
               lessThan5MB: (files: { size: number }[]) => files[0]?.size < 5000000 || "Max 5MB",
             },
             onChange: (e: { target: { files: { name: React.SetStateAction<string>; }[]; }; }) => {

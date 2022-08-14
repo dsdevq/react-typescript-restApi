@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import './FormBody.scss'
-import { useForm, UseFormRegister } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import FileInput from './FileInput/FileInput';
 import { AfterSent } from './AfterSent/AfterSent';
 import TextInput from './TextInput/TextInput';
 import { RadioContainer } from './RadioInput/RadioContainer';
-import { SetAddedUser } from '../PostRequest';
+import { useDispatch } from 'react-redux';
+import { userAdded } from '../../../../../featured/users/usersSlice';
 
 const TOKEN_URL = 'https://frontend-test-assignment-api.abz.agency/api/v1/token'
 
@@ -16,7 +17,6 @@ export interface FormValues {
   photo: string,
   position_id: string,
 }
-
 const errorColor = '#CB3D40'
 export const errorStyle = {
   border: {
@@ -27,9 +27,7 @@ export const errorStyle = {
   }
 }
 
-export default function FormBody({
-  setAddedUser
-}: SetAddedUser) {
+export default function FormBody() {
 
   const [fileName, setFileName] = useState<string>('Upload your photo')
   const [status, setStatus] = useState({
@@ -37,6 +35,7 @@ export default function FormBody({
     message: ''
   })
 
+  const dispatch = useDispatch()
   const {
     register,
     handleSubmit,
@@ -61,6 +60,7 @@ export default function FormBody({
 
 
   useEffect(() => {
+
     reset(
       {
         "name": "",
@@ -73,6 +73,7 @@ export default function FormBody({
         keepIsSubmitted: true
       }
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSubmitSuccessful]);
 
   const getTheToken = async (tokenUrl: string) => {
@@ -107,8 +108,9 @@ export default function FormBody({
           message: data.message
         })
         if (data.success) { // success response 
-          setAddedUser(true)
           console.log(data)
+          // $ Refresh is okay
+          dispatch(userAdded())
         } else { // server errors 
           console.log(data)
         }
@@ -124,8 +126,6 @@ export default function FormBody({
     const token = await getTheToken(TOKEN_URL)
     await postUser(token, data)
   })
-
-
 
   return (
     <>

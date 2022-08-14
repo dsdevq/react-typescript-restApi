@@ -7,15 +7,12 @@ const HeaderComponent = () => {
   return (
     <header className="header">
       <div className="header__container">
-        {/* <div> 
-        */}
-          <a href="#" 
-        className="header__logo"> 
-            <img 
-        className="header__img"
+        <a href="."
+          className="header__logo">
+          <img
+            className="header__img"
             src={logo} alt="Logo" />
-          </a>
-        {/* </div> */}
+        </a>
         <div className="header__buttons">
           <a href="#get-request" className="header__button button">
             Users

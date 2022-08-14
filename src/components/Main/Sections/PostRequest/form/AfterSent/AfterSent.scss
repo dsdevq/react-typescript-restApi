@@ -1,16 +1,13 @@
 .after-sent {
-  &__container {
-    display: grid;
-    gap: 50px;
-  }
-  &__title {
-
-  }
-  &__notification {
-    display: grid;
-    place-content: center;
-    img {
-      max-width: 100%;
-    }
-  }
+	&__container {
+		display: grid;
+		gap: 50px;
+	}
+	&__notification {
+		display: grid;
+		place-content: center;
+		img {
+			max-width: 100%;
+		}
+	}
 }

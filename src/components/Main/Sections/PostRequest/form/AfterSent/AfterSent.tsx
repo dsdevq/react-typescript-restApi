@@ -1,4 +1,3 @@
-import React from "react";
 import success from "../../../../../../Assets/success-image.svg"
 import './AfterSent.scss'
 
@@ -19,7 +18,7 @@ export const AfterSent = ({ status, message }: { status: boolean; message: strin
         </h1>
         <div className="after-sent__notification">
           {status?.valueOf() &&
-            <img src={success} alt="Image" />
+            <img src={success} alt="Success" />
           }
         </div>
       </div>

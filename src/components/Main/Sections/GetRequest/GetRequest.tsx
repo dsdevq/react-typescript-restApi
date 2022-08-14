@@ -1,22 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getUsers } from "../../../../featured/users/requests";
+import { isAdded, isVisible, selectAllUsers, selectPage, showMore } from "../../../../featured/users/usersSlice";
 import { Loader } from "../../../Loader/Loader";
 import { UserProps } from "../../Main";
 import './GetRequest.scss'
 import GetRequestItemComponent from "./Item/Item";
 
-interface GetRequest {
-  page: number,
-  setPage: (page: number) => void,
-  isLoading: boolean,
-  users: UserProps[],
-  pagesCount: number
-}
 
-const GetRequestComponent = ({ page, setPage, isLoading, users, pagesCount }: GetRequest) => {
+const GetRequestComponent = () => {
 
-  const showMore = () => {
-    setPage(page + 1)
-  }
+  const dispatch = useDispatch()
+  const isUserAdded = useSelector(isAdded)
+  const pageS = useSelector(selectPage)
+  const buttonIsVisible = useSelector(isVisible)
+  const users = useSelector(selectAllUsers)
+
+  useEffect(() => {
+    dispatch(getUsers(`?page=${pageS}&count=6`))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pageS, isUserAdded])
 
   return (
 
@@ -25,30 +28,24 @@ const GetRequestComponent = ({ page, setPage, isLoading, users, pagesCount }: Ge
         <div className="get-request__title title">
           Working with GET request
         </div>
-        {isLoading ?
+        {!users.length ?
           <Loader />
           :
           <div className="get-request__content content-request">
-            {users.length > 0 && users.sort((a: { registration_timestamp: number; }, b: { registration_timestamp: number; }) => a.registration_timestamp < b.registration_timestamp ? 1 : -1)
+            {users
               .map((user: JSX.IntrinsicAttributes & UserProps) => (
                 <GetRequestItemComponent {...user} key={user.id} />
               ))}
           </div>
         }
-        <button className="get-request__button button"
-          style={
-            pagesCount === page ?
-              {
-                display: "none"
-              }
-              :
-              {
-              }
-          }
-          id="showMore"
-          onClick={() => showMore()}>
-          Show more
-        </button>
+        {
+          buttonIsVisible &&
+          <button className="get-request__button button"
+            id="showMore"
+            onClick={() => dispatch(showMore())}>
+            Show more
+          </button>
+        }
       </div>
     </section>
   )

@@ -1,12 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import './FormBody.scss'
 import { useForm } from "react-hook-form";
-import FileInput from './FileInput/FileInput';
+import { FileInput } from './FileInput/FileInput';
 import { AfterSent } from './AfterSent/AfterSent';
-import TextInput from './TextInput/TextInput';
 import { RadioContainer } from './RadioInput/RadioContainer';
 import { useDispatch } from 'react-redux';
 import { userAdded } from '../../../../../featured/users/usersSlice';
+import { TextInput } from './TextInput/TextInput';
 
 const TOKEN_URL = 'https://frontend-test-assignment-api.abz.agency/api/v1/token'
 
@@ -17,19 +17,21 @@ export interface FormValues {
   photo: string,
   position_id: string,
 }
-const errorColor = '#CB3D40'
 export const errorStyle = {
-  border: {
-    border: `2px solid ${errorColor}`
+  errorColor: '#CB3D40',
+  border: function () {
+    return {
+      border: `2px solid ${this.errorColor}`
+    }
   },
-  text: {
-    color: `${errorColor}`
-  }
+  text: function () {
+    return {
+      color: this.errorColor
+    }
+  },
 }
 
 export default function FormBody() {
-
-  const [fileName, setFileName] = useState<string>('Upload your photo')
   const [status, setStatus] = useState({
     status: false,
     message: ''
@@ -44,8 +46,6 @@ export default function FormBody() {
       isValid,
       errors,
       dirtyFields,
-      isSubmitSuccessful,
-      isSubmitted
     }
   } = useForm<FormValues>({
     mode: 'onChange',
@@ -59,58 +59,41 @@ export default function FormBody() {
   })
 
 
-  useEffect(() => {
-
-    reset(
-      {
-        "name": "",
-        "email": "",
-        "position_id": undefined,
-        "phone": '',
-        "photo": "",
-      },
-      {
-        keepIsSubmitted: true
-      }
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSubmitSuccessful]);
-
-  const getTheToken = async (tokenUrl: string) => {
+  const postUser = async (data: FormData) => {
     try {
-      const response = await fetch(tokenUrl)
-      const result = await response.json()
-      return result.token
-    } catch (error) {
-      console.log('getTheToken api error: ', error);
-    }
-  }
-
-  const postUser = async (token: string, data: FormValues) => {
-    try {
-      const formData = new FormData()
-      formData.append('position_id', data.position_id)
-      formData.append('name', data.name)
-      formData.append('email', data.email)
-      formData.append('phone', data.phone)
-      formData.append('photo', data.photo[0])
-      const requestOptions = {
+      const token = await fetch(TOKEN_URL)
+      const tokenJsoned = await token.json()
+      const response = await fetch('https://frontend-test-assignment-api.abz.agency/api/v1/users', {
         method: 'post',
         headers: {
-          Token: token
+          Token: tokenJsoned.token
         },
-        body: formData
-      }
-      const response = await fetch('https://frontend-test-assignment-api.abz.agency/api/v1/users', requestOptions)
-      return await response.json().then(function (data) {
+        body: data
+      })
+      return await response.json().then((data) => {
         setStatus({
           status: data.success,
           message: data.message
         })
         if (data.success) { // success response 
+          reset(
+            {
+              "name": "",
+              "email": "",
+              "position_id": undefined,
+              "phone": '',
+              "photo": "",
+            },
+          );
           console.log(data)
           // $ Refresh is okay
           dispatch(userAdded())
+          setTimeout(() => {
+            setStatus({
+              status: false,
+              message: ''
+            })
+          }, 5000)
         } else { // server errors 
           console.log(data)
         }
@@ -123,13 +106,18 @@ export default function FormBody() {
   // Submits form data
   const onSubmit = handleSubmit(async (data, event) => {
     event?.preventDefault()
-    const token = await getTheToken(TOKEN_URL)
-    await postUser(token, data)
+    const formData = new FormData()
+    formData.append('position_id', data.position_id)
+    formData.append('name', data.name)
+    formData.append('email', data.email)
+    formData.append('phone', data.phone)
+    formData.append('photo', data.photo[0])
+    await postUser(formData)
   })
 
   return (
     <>
-      <form className="post-request__form form" onSubmit={onSubmit}>
+      <form id='form' className="post-request__form form" onSubmit={onSubmit}>
         <div className="form__text-container">
           {/* NAME */}
           <TextInput
@@ -150,16 +138,18 @@ export default function FormBody() {
             tip='Username should contain 2-60 characters'
           />
           {/* EMAIL */}
-          <TextInput register={
-            {
-              ...register('email', {
-                required: true,
-                minLength: 2,
-                maxLength: 100,
-                pattern: /^(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])$/
-              })
+          <TextInput
+            register={
+              {
+                ...register('email', {
+                  required: true,
+                  minLength: 2,
+                  maxLength: 100,
+                  // eslint-disable-next-line no-control-regex
+                  pattern: /^(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])$/
+                })
+              }
             }
-          }
             errors={errors.email}
             dirtyFields={dirtyFields.email}
             name='email'
@@ -181,6 +171,7 @@ export default function FormBody() {
                   required: true,
                   minLength: 6,
                   maxLength: 13,
+                  // eslint-disable-next-line no-useless-escape
                   pattern: /^[\+]{0,1}\+380([0-9]{9})$/
                 })
               }
@@ -199,17 +190,16 @@ export default function FormBody() {
         />
         {/* Photo */}
         <FileInput
-          fileName={fileName}
-          setFileName={setFileName}
           register={register}
           errors={errors}
-          isSubmitSuccessful={isSubmitSuccessful}
         />
-        <button type="submit" className="form__button button" disabled={!isValid}>
+        <button type="submit" className="form__button button"
+          disabled={!isValid}
+        >
           Sign up
         </button>
       </form>
-      {isSubmitted?.valueOf() &&
+      {status.status &&
         <AfterSent status={status.status} message={status.message} />
       }
     </>

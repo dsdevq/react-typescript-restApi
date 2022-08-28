@@ -1,5 +1,5 @@
 import './Main.scss'
-import GetRequestComponent from "./Sections/GetRequest/GetRequest";
+import { GetRequestComponent } from "./Sections/GetRequest/GetRequest";
 import { PostRequest } from "./Sections/PostRequest/PostRequest";
 import { TestAsignment } from "./Sections/TestAssignment/TestAsignment";
 

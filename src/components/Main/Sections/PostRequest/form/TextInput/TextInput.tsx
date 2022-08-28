@@ -1,9 +1,9 @@
-import React, { ReactNode } from 'react'
+import { ReactNode } from 'react'
 import { FieldError } from 'react-hook-form/dist/types'
 import { errorStyle } from '../FormBody'
 import './TextInput.scss'
 
-interface TextInput {
+interface TextInputType {
   register: object,
   errors: FieldError | undefined,
   dirtyFields: boolean | undefined,
@@ -13,37 +13,31 @@ interface TextInput {
   tip: string | ReactNode
 }
 
-export default function TextInput({ register, errors, dirtyFields, name, placeholder, label, tip }: TextInput) {
+export const TextInput = ({ register, errors, dirtyFields, name, placeholder, label, tip }: TextInputType) => {
 
   return (
     <div className="form__input-text-container text-input-container">
       {/* INPUT */}
       <input
-        style={errors? { name }.valueOf() &&
-        errorStyle.border
-        : {}
+        style={errors &&
+          errorStyle.border()
         }
         {...register}
         className="text-input-container__text-input input-text"
         type="text"
         placeholder={placeholder}
       />
-      {errors ? { name } &&
-        <div className="text-input-container__tip tip" 
-        style={errors ? { name } && errorStyle.text : {}}
-        >
+      {errors &&
+        <div className="text-input-container__tip tip"
+          style={errors && errorStyle.text()}>
           {tip}
         </div>
-        :
-        null
       }
       {/* LABEL */}
-      {dirtyFields ?
-        <label style={errors ? { name } && errorStyle.text : {}} className="text-input-container__label label" htmlFor={name}>
+      {dirtyFields &&
+        <label style={errors && errorStyle.text()} className="text-input-container__label label" htmlFor={name}>
           {label}
         </label>
-        :
-        null
       }
     </div>
   )

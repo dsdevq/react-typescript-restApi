@@ -1,9 +1,7 @@
 import FormBody from "./form/FormBody";
-
 import './PostRequest.scss'
 
 export const PostRequest = () => {
-
   return (
     <section id="post-request" className="main__post-request">
       <div className="post-request__container container-request">

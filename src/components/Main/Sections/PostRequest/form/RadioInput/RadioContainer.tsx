@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { RadioInput } from './RadioInput';
 
 export interface Position {
@@ -8,17 +8,18 @@ export interface Position {
 
 export const RadioContainer = ({ register }: any) => {
 
-  const [positions, setPositions] = useState<any[]>([])
+  const [positions, setPositions] = useState<Position[]>([])
 
-  const getPositions = async (api: string) => {
-    const response = await fetch(api)
-    const result = await response.json()
-    setPositions(result.positions)
-  }
-
-  // Renders only once when the page is loaded
   useEffect(() => {
-    getPositions('https://frontend-test-assignment-api.abz.agency/api/v1/positions')
+    (async () => {
+      try {
+        const response = await fetch('https://frontend-test-assignment-api.abz.agency/api/v1/positions')
+        const result = await response.json()
+        setPositions(result.positions)
+      } catch (error) {
+        console.log(error)
+      }
+    })()
   }, [])
 
   return (
@@ -27,7 +28,7 @@ export const RadioContainer = ({ register }: any) => {
         Select your position
       </div>
       {/* Checkboxes */}
-      {positions?.length > 0 && positions.map(position => (
+      {positions && positions.map((position: Position) => (
         <RadioInput key={position.id} position={position} register={register} />
       ))}
     </div>

@@ -1,6 +1,11 @@
 import './Radio.scss'
+import { Position } from './RadioContainer'
 
-export const RadioInput = ({ register, position }: any) => {
+type Radio = {
+  position: Position,
+  register: any
+}
+export const RadioInput = ({ register, position }: Radio) => {
 
   return (
     <div className="form__checkbox-radio">

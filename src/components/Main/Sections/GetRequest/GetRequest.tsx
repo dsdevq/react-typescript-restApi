@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUsers } from "../../../../featured/users/requests";
 import { isAdded, isVisible, selectAllUsers, selectPage, showMore } from "../../../../featured/users/usersSlice";
@@ -8,7 +8,7 @@ import './GetRequest.scss'
 import GetRequestItemComponent from "./Item/Item";
 
 
-const GetRequestComponent = () => {
+export const GetRequestComponent = () => {
 
   const dispatch = useDispatch()
   const isUserAdded = useSelector(isAdded)
@@ -50,7 +50,3 @@ const GetRequestComponent = () => {
     </section>
   )
 }
-
-const memoizedGetRequestComponent = React.memo(GetRequestComponent)
-
-export default memoizedGetRequestComponent
